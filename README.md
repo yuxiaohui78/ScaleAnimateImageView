@@ -1,5 +1,7 @@
-# ScaleImageView
+#The is a scale animate ImageView 
 The code is from https://github.com/hokushin0058/ScaleImageView
+
+#How to use it.
 ```
 allprojects {
 		repositories {
