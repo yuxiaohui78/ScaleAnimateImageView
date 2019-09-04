@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ViewParent;
@@ -391,5 +392,10 @@ public class ScaleImageView extends ImageView implements OnGesture {
         mMatrix.getValues(values);
         return (float) Math.sqrt(values[Matrix.MSCALE_X] * values[Matrix.MSCALE_X]
                 + values[Matrix.MSKEW_Y] * values[Matrix.MSKEW_Y]);
+    }
+
+    public void rotate (float angle){
+        mMatrix.postRotate(angle);
+        setImageMatrix(mMatrix);
     }
 }
