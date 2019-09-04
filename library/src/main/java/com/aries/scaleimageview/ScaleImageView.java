@@ -84,8 +84,16 @@ public class ScaleImageView extends ImageView implements OnGesture {
                             float scaleRate;
                             mMatrix.reset();
 
-                            scaleRate = drawableWidth >= drawableHeight ? viewWidth / drawableWidth : viewHeight / drawableHeight;
-                            mMinRate = scaleRate;
+                            float wRate = drawableWidth / viewWidth;
+                            float hRate = drawableHeight / viewHeight;
+                            if (wRate < hRate){
+                                scaleRate = viewHeight / drawableHeight;
+                            }else{
+                                scaleRate = viewWidth / drawableWidth;
+                            }
+//                            scaleRate = drawableWidth >= drawableHeight ? viewWidth / drawableWidth : viewHeight / drawableHeight; //This is the old rate
+
+                            mMinRate = scaleRate*.8f;
                             mMidRate = mMinRate * 2.5f;
                             mMaxRate = mMinRate * 5f;
 
@@ -108,6 +116,12 @@ public class ScaleImageView extends ImageView implements OnGesture {
         }
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        setImageDrawable(getDrawable());
+        Log.d("YXH", "onSizeChanged, render the image again ");
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -159,6 +173,11 @@ public class ScaleImageView extends ImageView implements OnGesture {
     public void onDrag(float dx, float dy) {
         ViewParent parent = this.getParent();
         RectF rect = getRect(mMatrix);
+
+        if (rect == null){
+            return ;
+        }
+
         boolean allowScrollX = rect.width() > getMeasuredWidth();
         boolean allowScrollY = rect.height() > getMeasuredHeight();
 
@@ -372,11 +391,5 @@ public class ScaleImageView extends ImageView implements OnGesture {
         mMatrix.getValues(values);
         return (float) Math.sqrt(values[Matrix.MSCALE_X] * values[Matrix.MSCALE_X]
                 + values[Matrix.MSKEW_Y] * values[Matrix.MSKEW_Y]);
-    }
-
-    //http://www.cnblogs.com/plokmju/p/android_Matrix.html
-    public void rotate (float angle){
-        mMatrix.postRotate(angle);
-        setImageMatrix(mMatrix);
     }
 }
