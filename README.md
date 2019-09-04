@@ -11,7 +11,7 @@ allprojects {
 }
   
 dependencies {
-        compile 'com.github.yuxiaohui78:ScaleAnimateImageView:1.1'
+        compile 'com.github.yuxiaohui78:ScaleAnimateImageView:1.2'
 }
 ```
 
